@@ -3,6 +3,7 @@ import React, { useEffect, useLayoutEffect } from 'react';
 import { gsap } from 'gsap';
 import loadBackgroudImages from '@/common/loadBackgroudImages';
 import headerRevealDelay from '@/common/headerRevealDelay';
+import social from '@/data/social.json';
 function Header() {
   useLayoutEffect(() => {
     const tl = gsap.timeline();
@@ -122,11 +123,19 @@ function Header() {
                     >
                       <span className="text">Contact Me</span>
                     </a>
-                    <div className="icon-img-60 ml-20">
-                      <img
-                        src="/assets/imgs/icon-img/arrow-down-big.png"
-                        alt=""
-                      />
+                    <div className="hero-social ml-20">
+                      {social.map((item) => (
+                        <a
+                          key={item.name}
+                          href={item.url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="social-circle"
+                          aria-label={item.name}
+                        >
+                          <i className={item.icon}></i>
+                        </a>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -137,15 +146,26 @@ function Header() {
         <div className="info d-flex align-items-center justify-content-end mt-100">
           <div className="item">
             <h6 className="sub-title mb-10">Email :</h6>
-            <span className="p-color">areebrehman411@gmail.com</span>
+            <a className="p-color" href="mailto:areebrehman411@gmail.com">
+              areebrehman411@gmail.com
+            </a>
           </div>
           <div className="item">
-            <h6 className="sub-title mb-10">Phone :</h6>
-            <span className="p-color">+92 315 444 1676</span>
+            <h6 className="sub-title mb-10">WhatsApp :</h6>
+            <a
+              className="p-color"
+              href="https://wa.me/923154441676"
+              target="_blank"
+              rel="noreferrer"
+            >
+              +92 315 444 1676
+            </a>
           </div>
           <div className="item">
             <h6 className="sub-title mb-10">Address :</h6>
-            <span className="p-color">Gulzar-e-Hijri, Scheme 33, Karachi</span>
+            <a className="p-color" href="/page-contact">
+              Gulzar-e-Hijri, Scheme 33, Karachi
+            </a>
           </div>
         </div>
       </div>

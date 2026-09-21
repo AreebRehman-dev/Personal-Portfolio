@@ -1,4 +1,5 @@
 import React from 'react';
+import social from '@/data/social.json';
 
 function Footer() {
   return (
@@ -49,24 +50,23 @@ function Footer() {
           <div className="col-lg-3">
             <div className="column">
               <h6 className="sub-title mb-30">Elsewhere</h6>
-              {/* TODO: Areeb ne abhi URLs nahi diye — har `#0` ki jagah
-                  apna profile link daal dena hai. */}
+              {/* Links data/social.json se aate hain */}
               <ul className="rest social-icon d-flex align-items-center">
-                <li className="hover-this cursor-pointer">
-                  <a href="#0" className="hover-anim" aria-label="GitHub">
-                    <i className="fab fa-github"></i>
-                  </a>
-                </li>
-                <li className="hover-this cursor-pointer ml-10">
-                  <a href="#0" className="hover-anim" aria-label="LinkedIn">
-                    <i className="fab fa-linkedin-in"></i>
-                  </a>
-                </li>
-                <li className="hover-this cursor-pointer ml-10">
-                  <a href="#0" className="hover-anim" aria-label="Instagram">
-                    <i className="fab fa-instagram"></i>
-                  </a>
-                </li>
+                {social.map((item, i) => (
+                  // Template ka "hover-this" magnetic effect icon ko mouse se
+                  // door khiska deta tha, aur click khaali <li> pe lagta tha.
+                  <li key={item.name} className={i ? 'ml-10' : ''}>
+                    <a
+                      href={item.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="social-circle"
+                      aria-label={item.name}
+                    >
+                      <i className={item.icon}></i>
+                    </a>
+                  </li>
+                ))}
               </ul>
               <h6 className="mt-40 fz-14 opacity-7 fw-400">
                 Available for freelance work

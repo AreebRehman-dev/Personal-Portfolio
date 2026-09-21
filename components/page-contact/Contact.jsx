@@ -1,5 +1,6 @@
 'use client';
 import React, { useState } from 'react';
+import social from '@/data/social.json';
 
 // ---------------------------------------------------------------------------
 // Web3Forms — free, koi account/password nahi chahiye.
@@ -86,17 +87,19 @@ function Contact() {
                 </p>
               </div>
 
-              {/* TODO: Areeb ne abhi profile URLs nahi diye */}
               <div className="social-icon mt-50">
-                <a href="#0" aria-label="GitHub">
-                  <i className="fab fa-github"></i>
-                </a>
-                <a href="#0" aria-label="LinkedIn">
-                  <i className="fab fa-linkedin-in"></i>
-                </a>
-                <a href="#0" aria-label="Instagram">
-                  <i className="fab fa-instagram"></i>
-                </a>
+                {social.map((item) => (
+                  <a
+                    key={item.name}
+                    href={item.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="social-circle"
+                    aria-label={item.name}
+                  >
+                    <i className={item.icon}></i>
+                  </a>
+                ))}
               </div>
             </div>
           </div>

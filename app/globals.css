@@ -447,3 +447,47 @@ footer .text-logo { font-size: 30px; }
   .acc .acc-icon::before,
   .acc .acc-icon::after { transition: none; }
 }
+
+/* Hero me "Contact Me" ke saath social icons (data/social.json) */
+.hero-social { display: flex; align-items: center; gap: 10px; }
+.header-personal .info .item a { transition: color 0.3s ease; }
+.header-personal .info .item a:hover { color: #fd5b38; }
+
+/* ------------------------------------------------------------------
+   Social icons, ek hi style: hero, footer aur contact page teeno me.
+   Gol button, hover pe orange bhar kar halka sa upar uthta hai.
+   (Template ka "hover-this" magnetic effect jaan boojh kar nahi lagaya,
+   wo icon ko mouse se door khiska deta tha aur click miss hota tha.)
+   ------------------------------------------------------------------ */
+.social-circle,
+.social-icon a.social-circle {
+  display: inline-grid !important;
+  place-items: center;
+  width: 46px !important;
+  height: 46px !important;
+  line-height: 1 !important;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: #fff;
+  font-size: 16px;
+  transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease, color 0.3s ease;
+}
+.social-circle:hover,
+.social-circle:focus-visible {
+  background: #fd5b38;
+  border-color: #fd5b38 !important;
+  color: #fff;
+  transform: translateY(-3px);
+}
+.social-circle:focus-visible { outline: 2px solid #fd5b38; outline-offset: 3px; }
+@media (max-width: 575px) {
+  .social-circle,
+  .social-icon a.social-circle { width: 40px !important; height: 40px !important; font-size: 14px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .social-circle { transition: none; }
+  .social-circle:hover { transform: none; }
+}
+/* Contact page pe icons aapas me chipke hue the */
+.contact .social-icon { display: flex !important; gap: 10px !important; }
+.contact .social-icon a.social-circle { margin: 0 !important; }

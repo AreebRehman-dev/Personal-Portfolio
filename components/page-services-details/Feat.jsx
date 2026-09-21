@@ -8,18 +8,18 @@ function Feat() {
           <div className="d-flex align-items-center mb-30">
             <h2 className="fw-600 fz-70 text-u d-rotate wow">
               <span className="rotate-text">
-                How It <span className="fw-200">Work</span>
+                How It <span className="fw-200">Works</span>
               </span>
             </h2>
             <div className="ml-auto vi-more">
-              <a href="#0" className="butn butn-sm butn-bord radius-30">
+              <a href="/page-services" className="butn butn-sm butn-bord radius-30">
                 <span>View All</span>
               </a>
               <span className="icon ti-arrow-top-right"></span>
             </div>
           </div>
           <h6 className="sub-title main-color d-flex align-items-center">
-            <span>Our approach</span>
+            <span>My approach</span>
             <span className="thin"></span>
           </h6>
         </div>
