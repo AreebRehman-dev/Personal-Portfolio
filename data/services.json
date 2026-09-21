@@ -1,26 +1,34 @@
 [
   {
     "title": "AI Integrated Web Apps",
+    "icon": "web",
     "img": "/assets/imgs/serv-icons/3.png",
     "desc": "Full stack applications built with React, Next.js, Node and FastAPI, with LLM features designed in from the start rather than bolted on later.",
+    "tags": ["React", "Next.js", "FastAPI"],
     "link": "/page-services-details"
   },
   {
     "title": "AI Automation and Voice Agents",
+    "icon": "voice",
     "img": "/assets/imgs/serv-icons/4.png",
     "desc": "Custom voice agents, Vapi integrations, chatbots and n8n workflows that take repetitive work off your team and run without supervision.",
+    "tags": ["Vapi", "n8n", "Chatbots"],
     "link": "/page-services-details"
   },
   {
     "title": "Model Fine Tuning",
+    "icon": "model",
     "img": "/assets/imgs/serv-icons/5.png",
     "desc": "Pretraining, LoRA, QLoRA and DPO. Models tuned on your own data so they answer in your domain instead of guessing at it.",
+    "tags": ["LoRA", "QLoRA", "DPO"],
     "link": "/page-services-details"
   },
   {
     "title": "Deployment and DevOps",
+    "icon": "deploy",
     "img": "/assets/imgs/serv-icons/6.png",
     "desc": "Getting it to production and keeping it there: builds, hosting, environments, CI and monitoring, so releases stop being an event.",
+    "tags": ["Docker", "CI/CD", "Monitoring"],
     "link": "/page-services-details"
   }
 ]

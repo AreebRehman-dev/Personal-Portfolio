@@ -7,7 +7,7 @@ import Footer from '@/components/common/Footer';
 import Marq2 from '@/components/common/Marq2';
 import Navbar from '@/components/common/Navbar';
 import Clients from '@/components/common/Clients';
-import Services from '@/components/home-digital-agency/Services';
+import Services from '@/components/page-services/ServiceCards';
 import Intro2 from '@/components/home-digital-agency/Intro2';
 import Header from '@/components/page-services/Header';
 import Numbers from '@/components/page-services/Numbers';

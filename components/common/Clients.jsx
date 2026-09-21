@@ -1,5 +1,6 @@
 'use client';
 import React from 'react';
+import { Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 // Pehle yahan client/brand logos ka carousel tha. Areeb ke abhi paying clients
@@ -21,31 +22,29 @@ const stack = [
 ];
 
 function Clients() {
+  // Mobile-first breakpoints (Swiper me har key "is width se upar" hai).
+  // Pehle wale template ke breakpoints ulte the: phone pe 5 circles aur
+  // tablet pe sirf 2 aate the.
   const swiperOptions = {
-    speed: 600,
+    modules: [Autoplay],
+    speed: 800,
     loop: true,
-    slidesPerView: 5,
-    spaceBetween: 40,
-    centeredSlides: true,
+    // Khud chalta rahe. Mouse upar ho to ruk jaye, drag ke baad dobara chale.
+    autoplay: {
+      delay: 2200,
+      disableOnInteraction: false,
+      pauseOnMouseEnter: true,
+    },
+    // Loop ke liye copies ki ginti fix. Warna Swiper ise slidesPerView se
+    // nikalta hai, jo server (2) aur desktop (5) pe alag hota hai, aur
+    // hydration error aata hai.
+    loopedSlides: stack.length,
+    slidesPerView: 2,
+    spaceBetween: 16,
     breakpoints: {
-      640: {
-        loop: true,
-        slidesPerView: 2,
-        spaceBetween: 20,
-        centeredSlides: false,
-      },
-      600: {
-        loop: true,
-        slidesPerView: 3,
-        spaceBetween: 30,
-        centeredSlides: false,
-      },
-      1000: {
-        loop: true,
-        slidesPerView: 5,
-        spaceBetween: 40,
-        centeredSlides: true,
-      },
+      576: { slidesPerView: 3, spaceBetween: 20 },
+      992: { slidesPerView: 4, spaceBetween: 30 },
+      1200: { slidesPerView: 5, spaceBetween: 40 },
     },
   };
 
