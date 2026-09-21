@@ -1,0 +1,57 @@
+# ---------------------------------------------------------------
+# Areeb Rehman | Portfolio (Next.js, static export)
+# ---------------------------------------------------------------
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# Next.js build output
+/.next/
+/out/
+/build
+
+# testing
+/coverage
+
+# environment variables (Web3Forms key wagera yahan hoti hai)
+.env
+.env*.local
+.env.development
+.env.production
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# deployment
+.vercel
+.netlify
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# asli, badi photos (har ek ~8MB). Site sirf crop ki hui versions
+# public/assets/imgs/header/ se use karti hai, ye folder sirf source hai.
+/photos-in/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# editor
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+*.swp
+
+# misc
+*.pem
+*.bak

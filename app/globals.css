@@ -1,0 +1,171 @@
+/* Loader session me sirf ek baar. Ye class loader.jsx ka inline script
+   lagata hai jab sessionStorage me flag mil jaye — CSS se chhupane ki wajah
+   ye hai ke loader ka markup parse hone se pehle hi rule lag jata hai,
+   isliye dobara aane pe wo ek frame ke liye bhi nazar nahi aata. */
+html.skip-loader .loader-wrap {
+  display: none !important;
+}
+
+/* Header GSAP se slide-in hota hai (dekho kisi bhi Header.jsx ka
+   useLayoutEffect). Server ka HTML browser pehle paint kar deta hai, aur
+   GSAP hydration ke baad chalta hai — is beech content apni sahi jagah pe
+   dikh jata tha, phir neeche chhalang laga kar dobara upar aata tha.
+   Yahan pehle se chhupa dete hain taake pehla paint animation ki starting
+   position se match kare. GSAP inline opacity laga kar isay override karta
+   hai, aur wo npm bundle se aata hai (CDN se nahi) — is liye chalega zaroor. */
+.header {
+  opacity: 0;
+}
+
+/* Text logo — Areeb ke paas image logo nahi hai, is liye naam hi logo hai.
+   Navbar aur Footer dono isay istemal karte hain. */
+.text-logo {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 1px;
+  font-family: "Plus Jakarta Sans", "Poppins", sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: #fff;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.text-logo:hover { color: #fff; }
+
+.text-logo .text-logo-dot {
+  color: #fd5b38;
+  font-size: 30px;
+  line-height: 1;
+}
+
+/* Footer ka logo thoda bara */
+footer .text-logo { font-size: 30px; }
+
+/* Tech stack chips — pehle yahan client logos ki images thin.
+   Template har item ko 220px ka circle bana deta hai (.clients-carso.in-circle
+   .item), is liye chip usi circle ko bharta hai, uske upar apna box nahi banata. */
+.clients-carso.in-circle .item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.3s ease;
+}
+
+.clients-carso.in-circle .item:hover {
+  border-color: rgba(253, 91, 56, 0.55);
+}
+
+.stack-chip {
+  font-family: "Plus Jakarta Sans", "Poppins", sans-serif;
+  font-size: 19px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+  padding: 0 24px;
+  transition: color 0.3s ease;
+}
+
+.clients-carso.in-circle .item:hover .stack-chip {
+  color: #fff;
+}
+
+/* Hero ke daaen taraf ka visual (Header.jsx me SVG). Background p0.jpg ki
+   orange roshni isi jagah hai. Overlay ke upar (z 3), text ke neeche (z 7).
+   Mobile pe text poori chaudai leta hai, wahan chhupa diya. */
+.hero-visual {
+  position: absolute;
+  /* container (max 1320px) ke daaen kinare ke saath line me */
+  right: max(5vw, calc((100vw - 1320px) / 2));
+  top: 49%;
+  width: min(560px, 38vw);
+  aspect-ratio: 1;
+  transform: translateY(-50%);
+  z-index: 3;
+  pointer-events: none;
+}
+
+.hero-visual svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.hero-visual .hv-line {
+  fill: none;
+  stroke: rgba(253, 91, 56, 0.22);
+  stroke-width: 1;
+}
+.hero-visual .hv-strong { stroke: rgba(253, 91, 56, 0.38); }
+.hero-visual .hv-dash { stroke-dasharray: 2 7; stroke: rgba(255, 255, 255, 0.18); }
+.hero-visual .hv-node { fill: #fd5b38; }
+.hero-visual .hv-node-soft { fill: rgba(255, 255, 255, 0.55); }
+
+.hero-visual .hv-ring {
+  transform-box: view-box;
+  transform-origin: 300px 300px;
+  animation: hv-spin 70s linear infinite;
+}
+.hero-visual .hv-ring-b { animation-duration: 110s; animation-direction: reverse; }
+.hero-visual .hv-ring-c { animation-duration: 50s; }
+
+.hero-visual .hv-net line { stroke: rgba(255, 255, 255, 0.14); stroke-width: 1; }
+.hero-visual .hv-net circle { fill: #17171a; stroke: rgba(255, 255, 255, 0.55); stroke-width: 1.2; }
+.hero-visual .hv-net .hv-out { fill: #fd5b38; stroke: none; }
+
+@keyframes hv-spin { to { transform: rotate(360deg); } }
+
+.hero-visual .hv-chip {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(20, 20, 23, 0.72);
+  backdrop-filter: blur(6px);
+  font-family: "Plus Jakarta Sans", "Poppins", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+  white-space: nowrap;
+  translate: -50% -50%;
+  animation: hv-float 6s ease-in-out infinite alternate;
+}
+.hero-visual .hv-chip i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #fd5b38;
+}
+/* Labels bahar wale ring pe barabar faasle (72 deg) pe. translate centre karta hai,
+   transform float animation ke liye khaali rehta hai. */
+.hero-visual .hv-chip-1 { left: 75.9%; top: 14.4%; animation-delay: -0s; }
+.hero-visual .hv-chip-3 { left: 91.8%; top: 63.6%; animation-delay: -1s; }
+.hero-visual .hv-chip-4 { left: 50.0%; top: 94.0%; animation-delay: -2s; }
+.hero-visual .hv-chip-2 { left: 8.2%; top: 63.6%; animation-delay: -3s; }
+.hero-visual .hv-chip-5 { left: 24.1%; top: 14.4%; animation-delay: -4s; }
+
+@keyframes hv-float { to { transform: translateY(-8px); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-visual .hv-ring,
+  .hero-visual .hv-chip { animation: none; }
+}
+
+@media (max-width: 991px) {
+  .hero-visual { display: none; }
+}
+
+/* About ki tasveer ke gird doosra icon template me tasveer ke peeche tha
+   (z-index -1). Logo aadha kata hua ghalti lagta hai, is liye aage laaya. */
+/* style.css isse baad load hoti hai, is liye !important */
+.about-author .profile-img .icon:nth-of-type(2) {
+  z-index: 3 !important;
+  right: -28px !important;
+}

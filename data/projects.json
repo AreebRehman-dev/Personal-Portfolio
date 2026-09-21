@@ -1,0 +1,26 @@
+[
+  {
+    "slug": "ovx",
+    "title": "Ovx",
+    "subtitle": "Orchestrated Vision Xcelerator",
+    "category": "AI SaaS",
+    "tags": ["SaaS", "AI Automation"],
+    "desc": "A SaaS platform that orchestrates AI workflows end to end, built full stack, with automation running underneath the product rather than beside it.",
+    "img": "/assets/imgs/works/1/1.jpg",
+    "thumb": "/assets/imgs/works/2/1.jpg",
+    "live": "https://ovx-ai.com/",
+    "github": ""
+  },
+  {
+    "slug": "vinpol",
+    "title": "Vinpol",
+    "subtitle": "",
+    "category": "AI SaaS",
+    "tags": ["SaaS", "AI Automation"],
+    "desc": "A SaaS web application with AI automation built in.",
+    "img": "/assets/imgs/works/1/2.jpg",
+    "thumb": "/assets/imgs/works/2/2.jpg",
+    "live": "",
+    "github": ""
+  }
+]
