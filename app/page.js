@@ -8,6 +8,7 @@ import Marq2 from '@/components/common/Marq2';
 import Navbar from '@/components/common/Navbar';
 import Header from '@/components/home-personal/Header';
 import Clients from '@/components/common/Clients';
+import VoiceAgentButton from '@/components/common/VoiceAgentButton';
 
 import Marq from '@/components/home-personal/Marq';
 import About from '@/components/home-personal/About';
@@ -40,6 +41,7 @@ export default function Home() {
       <ProgressScroll />
       <Lines />
       <Navbar />
+      <VoiceAgentButton />
       <div id="smooth-wrapper">
         <div id="smooth-content">
           <main className="main-bg o-hidden">
