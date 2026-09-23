@@ -21,7 +21,19 @@ const VoiceAgentButton = () => {
   const roomRef = useRef(null);
   const audioRef = useRef(null);
 
-  useEffect(() => () => roomRef.current?.disconnect(), []);
+  useEffect(() => {
+    // Pull the library in once the page is idle. Doing it on click instead put
+    // the download in front of every conversation.
+    const warm = () => import('livekit-client').catch(() => {});
+    const id = window.requestIdleCallback
+      ? window.requestIdleCallback(warm, { timeout: 4000 })
+      : setTimeout(warm, 2000);
+    return () => {
+      if (window.cancelIdleCallback) window.cancelIdleCallback(id);
+      else clearTimeout(id);
+      roomRef.current?.disconnect();
+    };
+  }, []);
 
   if (!API_URL || !TENANT_ID) return null;
 
