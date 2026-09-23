@@ -24,7 +24,17 @@ const VoiceAgentButton = () => {
   useEffect(() => {
     // Pull the library in once the page is idle. Doing it on click instead put
     // the download in front of every conversation.
-    const warm = () => import('livekit-client').catch(() => {});
+    const warm = () => {
+      // Open the connection to the API before the click needs it.
+      if (API_URL) {
+        const l = document.createElement('link');
+        l.rel = 'preconnect';
+        l.href = API_URL;
+        l.crossOrigin = 'anonymous';
+        document.head.appendChild(l);
+      }
+      import('livekit-client').catch(() => {});
+    };
     const id = window.requestIdleCallback
       ? window.requestIdleCallback(warm, { timeout: 4000 })
       : setTimeout(warm, 2000);
