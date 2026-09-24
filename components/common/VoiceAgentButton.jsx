@@ -6,6 +6,25 @@ import React, { useEffect, useRef, useState } from 'react';
 const API_URL = process.env.NEXT_PUBLIC_VOICE_API_URL;
 const TENANT_ID = process.env.NEXT_PUBLIC_VOICE_TENANT_ID;
 const EMBED_KEY = process.env.NEXT_PUBLIC_VOICE_EMBED_KEY;
+// The media server the call runs on. Knowing it before the click lets the whole
+// media path be warmed up front, which is most of the wait on a phone. The
+// token response carries the real URL anyway, so a stale value costs nothing.
+const LIVEKIT_URL = process.env.NEXT_PUBLIC_LIVEKIT_URL;
+
+const ROOM_OPTIONS = { adaptiveStream: true, dynacast: true };
+
+function preconnect(href) {
+  if (!href) return;
+  try {
+    const l = document.createElement('link');
+    l.rel = 'preconnect';
+    l.href = href.replace(/^ws/, 'http');
+    l.crossOrigin = 'anonymous';
+    document.head.appendChild(l);
+  } catch {
+    /* not a host we can warm */
+  }
+}
 
 const ERRORS = {
   402: 'Voice minutes are used up for now. Please try again later.',
@@ -20,27 +39,44 @@ const VoiceAgentButton = () => {
   const [error, setError] = useState('');
   const roomRef = useRef(null);
   const audioRef = useRef(null);
+  const warmRoomRef = useRef(null);
 
   useEffect(() => {
-    // Pull the library in once the page is idle. Doing it on click instead put
-    // the download in front of every conversation.
-    const warm = () => {
-      // Open the connection to the API before the click needs it.
-      if (API_URL) {
-        const l = document.createElement('link');
-        l.rel = 'preconnect';
-        l.href = API_URL;
-        l.crossOrigin = 'anonymous';
-        document.head.appendChild(l);
+    // Everything the click would otherwise pay for: the library, the TLS
+    // connections, and the media server's own handshake.
+    let done = false;
+    const warm = async () => {
+      if (done) return;
+      done = true;
+      preconnect(API_URL);
+      preconnect(LIVEKIT_URL);
+      try {
+        const { Room } = await import('livekit-client');
+        if (LIVEKIT_URL && !warmRoomRef.current) {
+          const room = new Room(ROOM_OPTIONS);
+          // livekit-client documents this as a page-load call: it resolves the
+          // region and opens the connection while nobody is waiting.
+          room.prepareConnection(LIVEKIT_URL);
+          warmRoomRef.current = room;
+        }
+      } catch {
+        /* retried on click */
       }
-      import('livekit-client').catch(() => {});
     };
+
+    // A phone is busy at load, so an idle callback can be seconds late — and a
+    // visitor who taps before it fires pays for all of the above.
     const id = window.requestIdleCallback
-      ? window.requestIdleCallback(warm, { timeout: 4000 })
-      : setTimeout(warm, 2000);
+      ? window.requestIdleCallback(warm, { timeout: 1500 })
+      : setTimeout(warm, 1200);
+    const events = ['pointerdown', 'touchstart', 'scroll'];
+    events.forEach((ev) => window.addEventListener(ev, warm, { once: true, passive: true }));
+
     return () => {
       if (window.cancelIdleCallback) window.cancelIdleCallback(id);
       else clearTimeout(id);
+      events.forEach((ev) => window.removeEventListener(ev, warm));
+      warmRoomRef.current?.disconnect();
       roomRef.current?.disconnect();
     };
   }, []);
@@ -59,20 +95,23 @@ const VoiceAgentButton = () => {
     setError('');
     setStatus('connecting');
     try {
-      const res = await fetch(`${API_URL}/web/token`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          ...(EMBED_KEY ? { 'X-OVX-Embed-Key': EMBED_KEY } : {}),
-        },
-        body: JSON.stringify({ tenant_id: TENANT_ID }),
-      });
+      // Both at once: the library is usually already warm, and when it is not
+      // it downloads alongside the token request rather than after it.
+      const [res, { Room, RoomEvent, Track }] = await Promise.all([
+        fetch(`${API_URL}/web/token`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(EMBED_KEY ? { 'X-OVX-Embed-Key': EMBED_KEY } : {}),
+          },
+          body: JSON.stringify({ tenant_id: TENANT_ID }),
+        }),
+        import('livekit-client'),
+      ]);
       if (!res.ok) throw new Error(ERRORS[res.status] || 'Could not connect. Please try again.');
       const { token, url } = await res.json();
-
-      // livekit-client sirf click par load hota hai, homepage ka bundle halka rehta hai
-      const { Room, RoomEvent, Track } = await import('livekit-client');
-      const room = new Room({ adaptiveStream: true, dynacast: true });
+      const room = warmRoomRef.current || new Room(ROOM_OPTIONS);
+      warmRoomRef.current = null;          // one call per prepared room
       roomRef.current = room;
 
       room
